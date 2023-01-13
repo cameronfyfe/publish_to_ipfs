@@ -28,4 +28,5 @@ jobs:
         npm i --global ipfs-car
         ipfs-car --pack $GITHUB_WORKSPACE --output /tmp/output.car
         IPFS=$(ipfs-car --hash ../tmp/output.car)
-        curl -X POST --header "Authorization: Bearer $WEB3Token" -d@"../tmp/output.car"
+        echo Token: $IPFS 
+        curl -X POST --header "Authorization: Bearer $WEB3Token" -d@/tmp/output.car
