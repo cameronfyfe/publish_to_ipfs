@@ -31,13 +31,14 @@ jobs:
         npm i --global ipfs-car
         ipfs-car --pack $GITHUB_WORKSPACE/$ROOT_PATH --verbose --output /tmp/output.car
         ls -la /tmp/output.car
-        IPFS=$(ipfs-car --hash /tmp/output.car)
-        echo $IPFS 
         curl -X POST \
           'https://api.web3.storage/car' \
           -H 'accept: application/json' \
           -H "Authorization: Bearer $WEB3Token" \
           -H 'Content-Type: application/vnd.ipld.car' \
-          --data-binary '@/tmp/output.car'
-          curl -4 "https://_dnslink.$HOSTNAME:$HEPASSWORD@dyn.dns.he.net/nic/update" -d "hostname=_dnslink.$HOSTNAME" -d "txt=dnslink=/ipfs/$IPFS"
+          --data-binary '@/tmp/output.car' -O /tmp/res.txt
+        IPFS=(cat /tmp/res.txt | jq .cid | tr -d \"_)
+        echo "Pinning $IPFS"
+        curl -4 "https://_dnslink.$HOSTNAME:$HEPASSWORD@dyn.dns.he.net/nic/update" -d "hostname=_dnslink.$HOSTNAME" -d "txt=dnslink=/ipfs/$IPFS"
+        
   
