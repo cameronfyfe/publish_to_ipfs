@@ -4,7 +4,10 @@ on:
 
 env:
   WEB3Token: ${{ secrets.WEB3APITOKEN }}
-
+  HOSTNAME: ${{ secrets.HOSTNAME }}
+  HEPASSWORD: ${{ secrets.HEPASSWORD }}
+  ROOT_PATH: src
+  
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -26,8 +29,7 @@ jobs:
       
     - run: |
         npm i --global ipfs-car
-        ipfs-car --pack $GITHUB_WORKSPACE --verbose --output /tmp/output.car
-        ls -la $GITHUB_WORKSPACE
+        ipfs-car --pack $GITHUB_WORKSPACE/$ROOT_PATH --verbose --output /tmp/output.car
         ls -la /tmp/output.car
         IPFS=$(ipfs-car --hash /tmp/output.car)
         echo $IPFS 
@@ -37,4 +39,5 @@ jobs:
           -H "Authorization: Bearer $WEB3Token" \
           -H 'Content-Type: application/vnd.ipld.car' \
           --data-binary '@/tmp/output.car'
+          curl -4 "https://_dnslink.$HOSTNAME:$HEPASSWORD@dyn.dns.he.net/nic/update" -d "hostname=_dnslink.$HOSTNAME" -d "txt=dnslink=/ipfs/$IPFS"
   
