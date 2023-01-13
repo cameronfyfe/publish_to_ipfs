@@ -41,7 +41,7 @@ jobs:
         echo Post Complete
         cat /tmp/res.txt
         echo Reading IPFS CID
-        IPFS=(cat /tmp/res.txt | jq .cid | tr -d \"_)
+        IPFS=$(cat /tmp/res.txt | jq .cid | tr -d \"_)
         echo "Pinning $IPFS"
         curl -4 "https://_dnslink.$HOSTNAME:$HEPASSWORD@dyn.dns.he.net/nic/update" -d "hostname=_dnslink.$HOSTNAME" -d "txt=dnslink=/ipfs/$IPFS"
         
