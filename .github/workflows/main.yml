@@ -3,7 +3,7 @@ on:
   push:
 
 env:
-  WEB3Token: ${{ secrets.WEB3TOKEN }}
+  WEB3Token: ${{ secrets.WEB3APITOKEN }}
 
 jobs:
   build:
@@ -27,3 +27,5 @@ jobs:
     - run: |
         npm i --global ipfs-car
         ipfs-car --pack $GITHUB_WORKSPACE --output /tmp/output.car
+        IPFS=$(ipfs-car --hash ../tmp/output.car)
+        curl -X POST --header "Authorization: Bearer $WEB3Token" -d@"../tmp/output.car"
