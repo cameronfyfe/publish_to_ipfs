@@ -1,0 +1,29 @@
+name: Publish IPFS
+on:
+  push:
+
+env:
+  WEB3Token: ${{ secrets.WEB3TOKEN }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        node-version: [16.x]
+        
+    steps:
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    
+      # Checks-out your repository under $GITHUB_WORKSPACE, 
+      # so your workflow can access it
+    - name: Checkout repo
+      uses: actions/checkout@master
+      
+    - run: |
+        npm i ipfs-car
+        ipfs-car --pack $GITHUB_WORKSPACE --output /tmp/output.car
