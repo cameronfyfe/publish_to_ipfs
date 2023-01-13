@@ -25,5 +25,5 @@ jobs:
       uses: actions/checkout@master
       
     - run: |
-        npm i ipfs-car
+        npm i --global ipfs-car
         ipfs-car --pack $GITHUB_WORKSPACE --output /tmp/output.car
