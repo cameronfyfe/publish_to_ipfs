@@ -26,7 +26,7 @@ jobs:
       
     - run: |
         npm i --global ipfs-car
-        ipfs-car --pack $GITHUB_WORKSPACE --output /tmp/output.car
+        ipfs-car --pack $GITHUB_WORKSPACE --verbose --output /tmp/output.car
         ls -la $GITHUB_WORKSPACE
         ls -la /tmp/output.car
         IPFS=$(ipfs-car --hash /tmp/output.car)
