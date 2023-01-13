@@ -36,7 +36,7 @@ jobs:
           -H 'accept: application/json' \
           -H "Authorization: Bearer $WEB3Token" \
           -H 'Content-Type: application/vnd.ipld.car' \
-          -O '/tmp/res.txt' \
+          -o '/tmp/res.txt' \
           --data-binary '@/tmp/output.car' 
         echo Post Complete
         cat /tmp/res.txt
