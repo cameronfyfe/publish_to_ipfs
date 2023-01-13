@@ -29,7 +29,7 @@ jobs:
       
     - run: |
         npm i --global ipfs-car
-        ipfs-car --pack $GITHUB_WORKSPACE/$ROOT_PATH/ --verbose --output /tmp/output.car
+        ipfs-car --pack $GITHUB_WORKSPACE/$ROOT_PATH/ --wrapWithDirectory false --verbose --output /tmp/output.car
         echo Posting to WEB3
         curl -X POST \
           'https://api.web3.storage/car' \
