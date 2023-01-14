@@ -6,6 +6,8 @@ env:
   WEB3Token: ${{ secrets.WEB3APITOKEN }}
   HOSTNAME: ${{ secrets.HOSTNAME }}
   HEPASSWORD: ${{ secrets.HEPASSWORD }}
+  DOTOKEN: ${{ secrets.DOTOKEN }}
+  DOID: ${{ secrets.DOID }}
   ROOT_PATH: src
   
 jobs:
@@ -43,6 +45,9 @@ jobs:
         echo Reading IPFS CID
         IPFS=$(cat /tmp/res.txt | jq .cid | tr -d \"_)
         echo "Pinning $IPFS"
-        curl -4 "https://_dnslink.$HOSTNAME:$HEPASSWORD@dyn.dns.he.net/nic/update" -d "hostname=_dnslink.$HOSTNAME" -d "txt=dnslink=/ipfs/$IPFS"
-        
-  
+        if [ -n "$HEPASSWORD" ]; then
+          curl -4 "https://_dnslink.$HOSTNAME:$HEPASSWORD@dyn.dns.he.net/nic/update" -d "hostname=_dnslink.$HOSTNAME" -d "txt=dnslink=/ipfs/$IPFS"
+        fi
+        if [ -n "$DOTOKEN" ]; then
+          curl -s -X PATCH -H 'Content-Type: application/json' -H "Authorization: Bearer $DOTOKEN" -d "{\"data\":\"dnslink=/ipfs/$IPFS\"}" "https://api.digitalocean.com/v2/domains/$HOSTNAME/records/$DOID" > /dev/null
+        fi
