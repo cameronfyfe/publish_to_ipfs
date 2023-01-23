@@ -34,7 +34,3 @@ curl -X GET \
   -H "Authorization: Bearer $DOTOKEN" \
   "https://api.digitalocean.com/v2/domains/$HOSTNAME/records"
 ```
-
-**NOTE**  
-Hurricane Electric DDNS currenty does NOT WORK. IT limits DDNS txt records to 45 character. 60 are required to fit all the required text and a CID
-TEST 1
